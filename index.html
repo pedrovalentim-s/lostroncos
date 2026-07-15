@@ -727,6 +727,10 @@
         gap: 28px; z-index: 99;
       }
       .nav-links.open a { font-size: 14px; letter-spacing: .22em; }
+      .nav-toggle { position: relative; z-index: 101; }
+      .nav-links.open + .nav-toggle span:nth-child(1) { transform: translateY(6.5px) rotate(45deg); }
+      .nav-links.open + .nav-toggle span:nth-child(2) { opacity: 0; }
+      .nav-links.open + .nav-toggle span:nth-child(3) { transform: translateY(-6.5px) rotate(-45deg); }
     }
     @media (max-width: 900px) {
       .wrap, .nav-inner { padding-left: 22px; padding-right: 22px; }
