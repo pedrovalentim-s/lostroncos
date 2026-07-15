@@ -394,7 +394,8 @@
       gap: 14px; align-items: start;
     }
     .getulio-duo .img-frame { aspect-ratio: 3/4; }
-    .getulio-duo .img-frame:nth-child(2) { margin-top: 42px; }
+    .getulio-duo .getulio-hero { grid-column: 1 / -1; aspect-ratio: 1/1; }
+    .getulio-duo .getulio-hero img { object-position: center 30%; }
 
     /* ── 04 QUEM SOMOS ── */
     .about-grid {
@@ -444,6 +445,7 @@
     .info-card {
       padding: 30px 24px; border: 1px solid var(--line);
       border-radius: 4px; background: rgba(0,0,0,.18);
+      display: flex; flex-direction: column;
     }
     .ic-label {
       font-family: var(--sans); font-size: 9.5px;
@@ -453,6 +455,19 @@
     .ic-value { font-size: 14px; color: var(--white); font-weight: 300; line-height: 1.7; }
     .ic-strong { font-weight: 500; color: var(--ember-soft); }
     .info-card-wide { grid-column: 1 / -1; }
+    .ic-btn {
+      display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+      margin-top: auto; align-self: center;
+      font-family: var(--sans); font-weight: 500;
+      font-size: 10px; letter-spacing: .22em; text-transform: uppercase;
+      color: var(--white); text-decoration: none;
+      background: var(--ember); border: 1px solid var(--ember);
+      border-radius: 99px; padding: 12px 26px;
+      transition: background .35s, box-shadow .35s;
+      box-shadow: 0 10px 30px -14px rgba(232,118,59,.6);
+    }
+    .ic-value { margin-bottom: 24px; }
+    .ic-btn:hover { background: transparent; box-shadow: 0 0 0 1px var(--ember); }
     .ic-value a { color: inherit; text-decoration: none; transition: color .3s; }
     .ic-value a:hover { color: var(--ember-soft); }
 
@@ -552,16 +567,23 @@
       background: var(--ember);
       box-shadow: 0 14px 44px -16px rgba(232,118,59,.8);
     }
+    .nu-media { display: flex; flex-direction: column; gap: 22px; }
+    .nu-fachada { aspect-ratio: 16/10; }
     .nu-badge {
       display: flex; align-items: center; justify-content: center;
     }
     .nu-badge-inner {
-      padding: 48px 44px; border: 1px solid var(--ember);
+      padding: 40px 40px; border: 1px solid var(--ember);
       border-radius: 4px; text-align: center;
       background: linear-gradient(135deg, rgba(232,118,59,.07) 0%, rgba(7,10,18,.6) 100%);
       box-shadow: 0 0 60px -20px rgba(232,118,59,.2);
       width: 100%;
     }
+    .lagoa-strip {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 16px; margin-top: 40px;
+    }
+    .lagoa-strip .img-frame { aspect-ratio: 16/10; }
     .nu-badge-tag {
       display: inline-block; font-family: var(--sans); font-weight: 500;
       font-size: 9px; letter-spacing: .3em; text-transform: uppercase;
@@ -587,6 +609,9 @@
     }
     @media (max-width: 900px) {
       .nova-unidade-grid { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 600px) {
+      .lagoa-strip { grid-template-columns: 1fr; }
     }
 
     /* ── CARDÁPIO OVERLAY ── */
@@ -698,6 +723,68 @@
       .menu-tabs { top: 78px; }
     }
 
+    /* ── MODAL DE RESERVAS ── */
+    .reserva-modal {
+      position: fixed; inset: 0; z-index: 400;
+      display: flex; align-items: center; justify-content: center;
+      padding: 24px;
+    }
+    .reserva-modal[hidden] { display: none; }
+    .reserva-backdrop {
+      position: absolute; inset: 0;
+      background: rgba(4,6,12,.82); backdrop-filter: blur(6px);
+      animation: fadeIn .3s both;
+    }
+    .reserva-card {
+      position: relative; z-index: 1; width: 100%; max-width: 520px;
+      background: linear-gradient(160deg, var(--ink-2) 0%, var(--ink) 100%);
+      border: 1px solid var(--line-strong); border-radius: 8px;
+      padding: 44px 40px 40px; text-align: center;
+      box-shadow: 0 40px 120px -30px rgba(0,0,0,.9);
+      animation: rise .5s cubic-bezier(.2,.7,.2,1) both;
+    }
+    .reserva-close {
+      position: absolute; top: 16px; right: 16px;
+      background: none; border: 1px solid var(--line); border-radius: 99px;
+      color: var(--mist); width: 38px; height: 38px; font-size: 22px; line-height: 1;
+      cursor: pointer; transition: color .3s, border-color .3s;
+    }
+    .reserva-close:hover { color: var(--white); border-color: var(--ember); }
+    .reserva-eyebrow {
+      font-family: var(--sans); font-weight: 500;
+      letter-spacing: .4em; font-size: 9.5px; text-transform: uppercase;
+      color: var(--ember-soft); margin-bottom: 14px;
+    }
+    .reserva-title {
+      font-family: var(--serif); font-weight: 500;
+      font-size: clamp(22px, 3vw, 28px); letter-spacing: .02em; margin-bottom: 30px;
+    }
+    .reserva-options { display: flex; flex-direction: column; gap: 16px; }
+    .reserva-option {
+      display: block; text-decoration: none; text-align: left;
+      border: 1px solid var(--line); border-radius: 4px;
+      padding: 22px 24px; transition: border-color .35s, background .35s, transform .35s;
+      background: linear-gradient(180deg, rgba(255,255,255,.015), transparent);
+    }
+    .reserva-option:hover {
+      border-color: var(--ember); background: rgba(232,118,59,.08);
+      transform: translateY(-2px);
+    }
+    .ro-name {
+      display: block; font-family: var(--serif); font-weight: 500;
+      font-size: 17px; letter-spacing: .04em; color: var(--white); margin-bottom: 5px;
+    }
+    .ro-addr {
+      display: block; font-family: var(--sans); font-weight: 300;
+      font-size: 12.5px; color: var(--mist); line-height: 1.5;
+    }
+    .ro-cta {
+      display: inline-block; margin-top: 12px;
+      font-family: var(--sans); font-weight: 500; font-size: 10px;
+      letter-spacing: .24em; text-transform: uppercase; color: var(--ember-soft);
+    }
+    body.reserva-open { overflow: hidden; }
+
     /* ── FIXED RESERVA BUTTON ── */
     .fixed-btn {
       position: fixed; bottom: 28px; right: 28px; z-index: 200;
@@ -705,7 +792,7 @@
       font-family: var(--sans); font-weight: 500;
       font-size: 10.5px; letter-spacing: .2em; text-transform: uppercase;
       color: var(--white); text-decoration: none;
-      background: var(--ember); border-radius: 99px;
+      background: var(--ember); border: none; cursor: pointer; border-radius: 99px;
       padding: 13px 24px;
       box-shadow: 0 8px 32px -8px rgba(232,118,59,.7);
       transition: transform .35s, box-shadow .35s;
@@ -780,12 +867,12 @@
 <body>
 
 <!-- fixed reserva -->
-<a href="https://wa.me/5548992053743" target="_blank" rel="noopener" class="fixed-btn">
+<button type="button" class="fixed-btn" data-open-reserva>
   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
     <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
   </svg>
   Reservar
-</a>
+</button>
 
 <!-- nav -->
 <nav id="navbar">
@@ -798,9 +885,9 @@
       <li><a href="#carne">A Carne</a></li>
       <li><a href="#getulio">Getúlio Bar Secreto</a></li>
       <li><a href="#quem-somos">Quem Somos</a></li>
-      <li><a href="#nova-unidade">Nova Unidade</a></li>
+      <li><a href="#nova-unidade">Unidade Lagoa</a></li>
       <li><a href="#" data-open-menu>Cardápio</a></li>
-      <li><a href="https://wa.me/5548992053743" target="_blank" rel="noopener" class="nav-cta">Reservar</a></li>
+      <li><a href="#" class="nav-cta" data-open-reserva>Reservar</a></li>
     </ul>
     <button class="nav-toggle" id="navToggle" aria-label="Abrir menu">
       <span></span><span></span><span></span>
@@ -855,7 +942,7 @@
 
     <h1 class="rv d4">Viva a verdadeira experiência<br>da parrilla uruguaya.</h1>
 
-    <a href="https://wa.me/5548992053743" target="_blank" rel="noopener" class="hero-cta rv d5">
+    <a href="#" class="hero-cta rv d5" data-open-reserva>
       Faça sua reserva &nbsp;→
     </a>
   </div>
@@ -881,8 +968,9 @@
       <div>
         <p class="casarao-eyebrow reveal">Um novo capítulo da parrilla mais tradicional da cidade</p>
         <h2 class="reveal reveal-delay-1">Um casarão de <em>100 anos</em>,<br>uma nova história.</h2>
-        <p class="reveal reveal-delay-2">Desde janeiro de 2025, a Los Troncos Parrilla Uruguaya vive um novo capítulo em um dos endereços mais especiais de Florianópolis: um <b>casarão histórico tombado, com mais de 100 anos</b>, no coração da cidade.</p>
-        <p class="reveal reveal-delay-2">Em pouco mais de um ano neste endereço, a Los Troncos já se tornou parte da história do lugar. Entre paredes que carregam memórias e uma arquitetura cheia de personalidade, a tradição da autêntica parrilla uruguaia ganhou ainda mais força. O fogo, os cortes selecionados e a experiência à mesa permanecem como essência da casa, em um <b>ambiente amplo, sofisticado e acolhedor</b>, onde o clássico e o contemporâneo se encontram de forma única.</p>
+        <p class="reveal reveal-delay-2">A história da Los Troncos Parrilla Uruguaya começou em <b>2021, no bairro de Coqueiros</b>, com a proposta de trazer para Florianópolis a autêntica tradição da parrilla uruguaia, valorizando cortes premium, fogo, hospitalidade e uma experiência que vai muito além da gastronomia.</p>
+        <p class="reveal reveal-delay-2">Em janeiro de 2025, essa história ganhou um novo capítulo com a mudança para um dos endereços mais emblemáticos da cidade: um <b>casarão histórico tombado, com mais de 100 anos</b>, localizado no coração de Florianópolis.</p>
+        <p class="reveal reveal-delay-2">Hoje, a tradição da parrilla uruguaia convive em perfeita harmonia com a arquitetura centenária do casarão. Entre ambientes que preservam a história e uma atmosfera elegante e acolhedora, o fogo, os cortes uruguaios cuidadosamente selecionados e o atendimento atencioso continuam sendo a <b>essência da Los Troncos</b>.</p>
         <p class="reveal reveal-delay-2">Mais do que um restaurante, a Los Troncos é um convite para viver Florianópolis através da <b>gastronomia, da história e dos encontros</b> que acontecem ao redor da parrilla.</p>
         <div class="pull-quote reveal reveal-delay-3">
           <p>"O clássico e o contemporâneo<br>se encontram de forma única."</p>
@@ -890,7 +978,7 @@
       </div>
 
       <div class="img-frame tall reveal reveal-delay-2">
-        <img src="assets/6bc576ed2081d93f_89c65f_bb8744fe569c4bd59d993a2.png" alt="Casarão histórico Los Troncos – Florianópolis">
+        <img src="assets/casarao-novo.jpg" alt="Casarão histórico Los Troncos – Centro de Florianópolis">
       </div>
     </div>
   </div>
@@ -977,7 +1065,7 @@
         <img src="assets/30a5bf45ba54ca22_IMG_5498.jpg" alt="Cortes suculentos na Los Troncos">
       </div>
       <div class="img-frame sq">
-        <img src="assets/d72da9aa7bffe695_31f115_30d3355cea41482995ad311.jpg" alt="Parrillada completa Los Troncos">
+        <img src="assets/carne-parrillada.jpg" alt="Parrillada completa Los Troncos">
       </div>
       <div class="img-frame sq">
         <img src="assets/0144519d8704d37d_IMG_0813.jpg" alt="Corte ao ponto na Los Troncos">
@@ -999,6 +1087,9 @@
 
     <div class="getulio-grid">
       <div class="getulio-duo reveal">
+        <div class="img-frame getulio-hero">
+          <img src="assets/getulio-xavier.jpg" alt="Xavier, Head Bartender do Getúlio, apresentando um drink autoral">
+        </div>
         <div class="img-frame">
           <img src="assets/getulio-1.jpg" alt="Getúlio Bar Secreto – salão no porão de tijolos à luz de velas">
         </div>
@@ -1010,8 +1101,13 @@
       <div>
         <span class="getulio-tag reveal">Experiência exclusiva</span>
         <h2 class="reveal reveal-delay-1">Getúlio<br>Bar Secreto.</h2>
-        <p class="reveal reveal-delay-2">Escondido no porão da Los Troncos do Centro, o Getúlio é um bar secreto com personalidade própria. Para acessá-lo, é preciso saber onde procurar, e essa é justamente parte da experiência.</p>
-        <p class="reveal reveal-delay-2">Lá embaixo, a hospitalidade uruguaya se encontra com a mixologia criativa em um ambiente intimista: <b>clima acolhedor, drinks autorais e uma atmosfera</b> que convida ao encontro e à descoberta. Um bar com segredos para contar.</p>
+        <p class="reveal reveal-delay-2">Escondido no porão de um casarão centenário da Los Troncos Centro, o Getúlio é um bar secreto para poucos. Apenas <b>30 lugares</b> dão vida a uma experiência intimista, onde cada detalhe foi pensado para quem valoriza boa coquetelaria, gastronomia e atmosfera.</p>
+        <p class="reveal reveal-delay-2">Encontrar o Getúlio já faz parte da experiência. Depois de atravessar a parrilla e descer ao subsolo, um ambiente elegante, iluminado à meia-luz e inspirado nos grandes bares clássicos revela um dos endereços mais exclusivos de Florianópolis.</p>
+        <p class="reveal reveal-delay-2">À frente do bar está <b>Xavier, Head Bartender da casa</b>. Com mais de 20 anos de experiência, ele assina uma carta de drinks autorais criada para surpreender, combinando técnicas clássicas, ingredientes selecionados e destilados premium. Cada coquetel é preparado individualmente, transformando o balcão em um verdadeiro espetáculo.</p>
+        <p class="reveal reveal-delay-2">No Getúlio, a experiência vai além dos drinks. O menu exclusivo harmoniza a alta coquetelaria com a autêntica parrilla uruguaia, em um ambiente reservado, onde boa música, atendimento personalizado e poucos lugares tornam cada noite única.</p>
+        <div class="pull-quote reveal reveal-delay-3">
+          <p>"Alguns lugares são famosos.<br>Outros, permanecem secretos.<br>O Getúlio foi feito para quem<br>aprecia descobrir o extraordinário."</p>
+        </div>
       </div>
     </div>
   </div>
@@ -1031,10 +1127,10 @@
     <div class="about-grid">
       <div>
         <h2 class="reveal">Uma casa apaixonada pela <em>carne</em> e pela hospitalidade.</h2>
-        <p class="reveal reveal-delay-1">Com <b>5 anos de operação</b>, a Los Troncos Parrilla Uruguaya já se tornou referência em carnes no estado de Santa Catarina. A gastronomia uruguaya conquistou o coração dos moradores e turistas que se encantam com os pratos saborosos e o ambiente aconchegante.</p>
-        <p class="reveal reveal-delay-1">A equipe dedicada e acolhedora cria um clima familiar, fazendo com que todos se sintam em casa, e um pouquinho no Uruguay. <b>Michelle e João</b>, sócios, têm como principal objetivo oferecer uma experiência diferente de tudo que você já viu na cidade quando se fala em carnes.</p>
-        <p class="reveal reveal-delay-1">Por isso, zelam pela qualidade de todos os insumos: das carnes às entradas; dos vinhos às guarnições tipicamente uruguayas; das cervejas aos drinks. A experiência proporcionada na Los Troncos é uma verdadeira <b>viagem gastronômica</b>.</p>
-        <p class="reveal reveal-delay-1">Aqui as pessoas podem se reunir, celebrar momentos especiais e desfrutar da riqueza cultural e gastronômica do Uruguay. Aprecie a experiência Los Troncos e seja muito bem-vindo!</p>
+        <p class="reveal reveal-delay-1">A Los Troncos Parrilla Uruguaya tornou-se referência em carnes no estado de Santa Catarina. A gastronomia uruguaya conquistou o coração de moradores e turistas que se encantam com pratos marcantes, ingredientes de excelência e um ambiente acolhedor.</p>
+        <p class="reveal reveal-delay-1">A equipe dedicada e acolhedora cria um clima familiar, fazendo com que todos se sintam em casa, e um pouquinho no Uruguay. <b>Michelle e João</b>, sócios da casa, têm como principal objetivo oferecer uma experiência diferente de tudo o que Florianópolis conhece quando o assunto é carne uruguaia.</p>
+        <p class="reveal reveal-delay-1">Por isso, zelam pela qualidade de cada detalhe: das carnes às entradas; dos vinhos às guarnições tipicamente uruguayas; das cervejas aos drinks. Na Los Troncos, cada escolha é feita para proporcionar uma verdadeira <b>viagem gastronômica</b>.</p>
+        <p class="reveal reveal-delay-1">Mais do que um restaurante, a Los Troncos é um lugar para reunir pessoas, celebrar momentos especiais e vivenciar a riqueza cultural e gastronômica do Uruguay. Aprecie a experiência Los Troncos e seja muito bem-vindo!</p>
         <div class="about-badge reveal reveal-delay-2">
           <div class="num">2021</div>
           <div class="txt">Desde 2021, temos o orgulho de oferecer<br>as melhores carnes uruguayas de Florianópolis.</div>
@@ -1042,7 +1138,7 @@
       </div>
 
       <div class="img-frame tall reveal reveal-delay-1">
-        <img src="assets/172b220736924a47_89c65f_3b824a9f49194e2eafd45c9.jpg" alt="Salão Los Troncos – ambiente acolhedor">
+        <img src="assets/quem-somos-novo.jpg" alt="Salão Los Troncos com mural do gaúcho – ambiente acolhedor">
       </div>
     </div>
   </div>
@@ -1055,7 +1151,7 @@
   <div class="wrap">
     <div class="sec-label">
       <span class="sec-num">05</span>
-      <span class="sec-title">Nova Unidade</span>
+      <span class="sec-title">Unidade Lagoa</span>
       <span class="sec-kicker">Inaugurada em junho de 2026 · Lagoa da Conceição</span>
     </div>
 
@@ -1063,21 +1159,36 @@
       <div class="nu-text">
         <p class="nu-eyebrow reveal">Um novo capítulo</p>
         <h2 class="reveal reveal-delay-1">A Los Troncos na<br><em>Lagoa da Conceição.</em></h2>
-        <p class="reveal reveal-delay-2">O que nasceu de muita paixão pela gastronomia, dedicação e conexão com as pessoas ganhou um novo capítulo. Em junho de 2026, a Los Troncos inaugurou sua segunda unidade em um dos cenários mais especiais de Florianópolis, mantendo a essência que conquistou tantos clientes ao longo da nossa trajetória.</p>
-        <p class="reveal reveal-delay-2">Você nos encontra na <b>Rua Rita Lourenço da Silveira, 500, Lagoa da Conceição.</b> Venha nos visitar.</p>
-        <a href="https://wa.me/5548992053743" target="_blank" rel="noopener" class="nu-btn reveal reveal-delay-3">
-          Fazer uma reserva &nbsp;→
+        <p class="reveal reveal-delay-2">O que nasceu da paixão pela gastronomia uruguaia, da dedicação diária e do prazer de receber bem ganhou um novo cenário. Em junho de 2026, a Los Troncos inaugurou sua segunda unidade em um dos lugares mais encantadores de Florianópolis, sem abrir mão da essência que conquistou tantos clientes ao longo da nossa história.</p>
+        <p class="reveal reveal-delay-2">À beira da Lagoa da Conceição, cada visita tem um momento especial. Durante o dia, a vista se revela em toda a sua beleza, convidando a um almoço tranquilo cercado pela natureza. Ao entardecer, o pôr do sol transforma a paisagem. E, à noite, as luzes do restaurante, o reflexo da água e o céu estrelado criam uma atmosfera única. Nas noites de lua cheia, o espetáculo fica completo: a lua surge imensa sobre a lagoa, tornando a experiência ainda mais inesquecível.</p>
+        <p class="reveal reveal-delay-2">Venha viver esse cenário com a autêntica parrilla uruguaia. Você nos encontra na <b>Rua Rita Lourenço da Silveira, 500, Lagoa da Conceição.</b></p>
+        <a href="https://www.pensanoevento.com.br/sitev2/reservas/2776/los-troncos-parrilla-uruguaya-lagoa-da-conceicao" target="_blank" rel="noopener" class="nu-btn reveal reveal-delay-3">
+          Reservar na Lagoa &nbsp;→
         </a>
       </div>
-      <div class="nu-badge reveal reveal-delay-2">
-        <div class="nu-badge-inner">
-          <span class="nu-badge-tag">Aberta desde junho de 2026</span>
-          <div class="nu-badge-name">Los Troncos</div>
-          <div class="nu-badge-sub">Lagoa da Conceição</div>
-          <div class="nu-badge-divider"></div>
-          <div class="nu-badge-addr">Rua Rita Lourenço da Silveira, 500</div>
-          <div class="nu-badge-addr">Lagoa da Conceição · Florianópolis</div>
+      <div class="nu-media reveal reveal-delay-2">
+        <div class="img-frame nu-fachada">
+          <img src="assets/lagoa-fachada.jpg" alt="Fachada da Los Troncos na Lagoa da Conceição ao entardecer">
         </div>
+        <div class="nu-badge">
+          <div class="nu-badge-inner">
+            <span class="nu-badge-tag">Aberta desde junho de 2026</span>
+            <div class="nu-badge-name">Los Troncos</div>
+            <div class="nu-badge-sub">Lagoa da Conceição</div>
+            <div class="nu-badge-divider"></div>
+            <div class="nu-badge-addr">Rua Rita Lourenço da Silveira, 500</div>
+            <div class="nu-badge-addr">Lagoa da Conceição · Florianópolis · CEP 88062-060</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="lagoa-strip reveal">
+      <div class="img-frame">
+        <img src="assets/lagoa-aerea.jpg" alt="Vista aérea da Los Troncos à beira da Lagoa da Conceição">
+      </div>
+      <div class="img-frame">
+        <img src="assets/lagoa-deck.jpg" alt="Deck e jardim da Los Troncos na Lagoa da Conceição">
       </div>
     </div>
   </div>
@@ -1093,7 +1204,7 @@
       <span class="sec-title">Faça sua Reserva</span>
     </div>
 
-    <p class="res-lead reveal">Agora em dois endereços: no Centro e na Lagoa da Conceição. Confira os horários de cada unidade e reserve pelo WhatsApp ou entre em contato conosco.</p>
+    <p class="res-lead reveal">Agora em dois endereços: no Centro e na Lagoa da Conceição. Confira os horários e reserve online na unidade da sua preferência.</p>
 
     <div class="info-row reveal reveal-delay-1">
       <div class="info-card">
@@ -1111,12 +1222,13 @@
           <b class="ic-strong">Domingo</b><br>
           Almoço: 11h30 às 16h
         </div>
+        <a href="https://www.pensanoevento.com.br/sitev2/reservas/1287/los-troncos-parrilla-uruguaya" target="_blank" rel="noopener" class="ic-btn">Reservar no Centro &nbsp;→</a>
       </div>
       <div class="info-card">
         <div class="ic-label">Unidade Lagoa da Conceição</div>
         <div class="ic-value">
           Rua Rita Lourenço da Silveira, 500<br>
-          Lagoa da Conceição · Florianópolis<br><br>
+          Lagoa da Conceição · Florianópolis · CEP 88062-060<br><br>
           <b class="ic-strong">Quarta a sexta</b><br>
           Jantar: 18h30 às 23h<br><br>
           <b class="ic-strong">Sábado</b><br>
@@ -1125,20 +1237,16 @@
           <b class="ic-strong">Domingo</b><br>
           Almoço: 11h30 às 16h
         </div>
+        <a href="https://www.pensanoevento.com.br/sitev2/reservas/2776/los-troncos-parrilla-uruguaya-lagoa-da-conceicao" target="_blank" rel="noopener" class="ic-btn">Reservar na Lagoa &nbsp;→</a>
       </div>
       <div class="info-card info-card-wide">
         <div class="ic-label">Contato</div>
         <div class="ic-value">
-          <a href="mailto:contato.lostroncos@gmail.com">contato.lostroncos@gmail.com</a> &nbsp;·&nbsp;
-          <a href="tel:+5548992053743">(48) 99205-3743</a>
+          <a href="tel:+5548992053743">(48) 99205-3743</a> &nbsp;·&nbsp;
+          <a href="https://wa.me/5548992053743" target="_blank" rel="noopener">WhatsApp</a>
         </div>
       </div>
     </div>
-
-    <a href="https://wa.me/5548992053743" target="_blank" rel="noopener" class="res-btn reveal reveal-delay-2">
-      Clique e solicite informações &nbsp;→
-    </a>
-    <span class="res-sub reveal reveal-delay-3">Resposta rápida via WhatsApp</span>
   </div>
 </section>
 
@@ -1160,7 +1268,7 @@
           <li><a href="#carne">A Carne</a></li>
           <li><a href="#getulio">Getúlio Bar Secreto</a></li>
           <li><a href="#quem-somos">Quem Somos</a></li>
-          <li><a href="#nova-unidade">Nova Unidade</a></li>
+          <li><a href="#nova-unidade">Unidade Lagoa</a></li>
           <li><a href="#" data-open-menu>Cardápio</a></li>
           <li><a href="#reservas">Reservas</a></li>
         </ul>
@@ -1172,8 +1280,8 @@
           Praça Getúlio Vargas, 158<br>
           CEP 88020-030<br><br>
           <b style="color:var(--white);font-weight:400;">Lagoa da Conceição</b><br>
-          Rua Rita Lourenço da Silveira, 500<br><br>
-          <a href="mailto:contato.lostroncos@gmail.com">contato.lostroncos@gmail.com</a><br>
+          Rua Rita Lourenço da Silveira, 500<br>
+          CEP 88062-060<br><br>
           <a href="tel:+5548992053743">(48) 99205-3743</a>
         </p>
       </div>
@@ -1215,7 +1323,6 @@
             <div class="menu-item-body">
               <div class="menu-item-row">
                 <h4>Molleja</h4>
-                <span class="menu-item-price">R$ 32</span>
               </div>
               <p>Iguaria vinda do Uruguay de sabor marcante<br>conhecida como “timo bovino” no Brasil –<br>acompanha limão siciliano caramelizado e<br>molho chimichurri</p>
             </div>
@@ -1225,7 +1332,6 @@
             <div class="menu-item-body">
               <div class="menu-item-row">
                 <h4>Morcilla</h4>
-                <span class="menu-item-price">R$ 35</span>
               </div>
               <p>Linguiça preta com textura cremosa e<br>sabor marcante, com leve dulçor e final<br>defumado. Um clássico autêntico da<br>parrilla. Acompanha salsa criolla e farofa</p>
             </div>
@@ -1235,7 +1341,6 @@
             <div class="menu-item-body">
               <div class="menu-item-row">
                 <h4>Chorizo</h4>
-                <span class="menu-item-price">R$ 7,50</span>
               </div>
               <p>Linguiça suína de produção própria,<br>100% natural e sem conservantes.<br>Acompanha salsa criolla, farofa e<br>picles de cebola roxa.</p>
             </div>
@@ -1245,7 +1350,6 @@
             <div class="menu-item-body">
               <div class="menu-item-row">
                 <h4>Pan Especial</h4>
-                <span class="menu-item-price">R$ 12</span>
               </div>
               <p>Pão de alho – acompanha molho chimichurri.</p>
             </div>
@@ -1255,7 +1359,6 @@
             <div class="menu-item-body">
               <div class="menu-item-row">
                 <h4>Provoleta</h4>
-                <span class="menu-item-price">R$ 52</span>
               </div>
               <p>Fatia de queijo provolone defumado assado na<br>parrilla e temperado com chimichurri (250g)</p>
             </div>
@@ -1265,7 +1368,6 @@
             <div class="menu-item-body">
               <div class="menu-item-row">
                 <h4>Provoleta de La Casa</h4>
-                <span class="menu-item-price">R$ 59</span>
               </div>
               <p>Fatia de queijo provolone defumado assado<br>na parrilla, presunto tipo parma, rúcula,<br>tomate confitado e azeitonas negras (250g)</p>
             </div>
@@ -1275,7 +1377,6 @@
             <div class="menu-item-body">
               <div class="menu-item-row">
                 <h4>Croqueta de Costela</h4>
-                <span class="menu-item-price">R$ 35</span>
               </div>
               <p>Croqueta de costela desfiada com molho<br>bechamel, queijo e servida com aioli de alho<br>assado na brasa (4 unidades)</p>
             </div>
@@ -1285,7 +1386,6 @@
             <div class="menu-item-body">
               <div class="menu-item-row">
                 <h4>Chicharrón</h4>
-                <span class="menu-item-price">R$ 48</span>
               </div>
               <p>Barriga suína crocante servida com limão siciliano caramelizado</p>
             </div>
@@ -1295,7 +1395,6 @@
             <div class="menu-item-body">
               <div class="menu-item-row">
                 <h4>Costela Desfiada</h4>
-                <span class="menu-item-price">R$ 39</span>
               </div>
               <p>Costela desfiada com cebola roxa caramelizada - servida com molho chimichurri da casa.</p>
             </div>
@@ -1305,7 +1404,6 @@
             <div class="menu-item-body">
               <div class="menu-item-row">
                 <h4>Trio de Chorizo Artesanal</h4>
-                <span class="menu-item-price">R$ 48</span>
               </div>
               <p>Frango, suíno e blend de carnes<br>uruguaias. Produção própria, 100%<br>natural e sem conservantes. Acompanha<br>salsa criolla, farofa e picles de cebola<br>roxa.</p>
             </div>
@@ -1315,7 +1413,6 @@
             <div class="menu-item-body">
               <div class="menu-item-row">
                 <h4>Burrata Caprese</h4>
-                <span class="menu-item-price">R$ 56</span>
               </div>
               <p>Burrata fresca produzida por um<br>italiano de verdade! Servida sobre<br>nosso delicioso molho de tomates<br>assados na brasa e folhas de<br>manjericão. Acompanha fatias de<br>pão de fermentação natural.</p>
             </div>
@@ -1325,7 +1422,6 @@
             <div class="menu-item-body">
               <div class="menu-item-row">
                 <h4>Pastéis Los Troncos</h4>
-                <span class="menu-item-price">R$ 19</span>
               </div>
               <p>Pastéis de ragú de asado de tiras (2 unidades)</p>
             </div>
@@ -1340,7 +1436,6 @@
             <div class="menu-item-body">
               <div class="menu-item-row">
                 <h4>Bife Ancho Angus Uruguayo </h4>
-                <span class="menu-item-price">R$ 105</span>
               </div>
               <p>Um dos cortes mais tradicionais do Uruguay, conhecido no Brasil como entrecot, possui gordura moderada e tem como principais características a maciez e sabor marcante – Corte com 300g.</p>
             </div>
@@ -1350,7 +1445,6 @@
             <div class="menu-item-body">
               <div class="menu-item-row">
                 <h4>Bife de Chorizo Angus Uruguayo</h4>
-                <span class="menu-item-price">R$ 105</span>
               </div>
               <p>Corte muito utilizado no Brasil, conhecido como contra-filé, contém rica capa de gordura, marmoreio moderado e sabor acentuado – corte com 300g – acompanha salada de tomate com picles de cebola roxa 50g</p>
             </div>
@@ -1360,7 +1454,6 @@
             <div class="menu-item-body">
               <div class="menu-item-row">
                 <h4>Asado de Tiras Angus Uruguayo</h4>
-                <span class="menu-item-price">R$ 105</span>
               </div>
               <p>Um dos cortes mais tradicionais dos assados uruguaios e um dos mais consumidos na região Rio<br>Platense, traz um sabor intenso característico da costela por ser um bife com osso – corte com 300g – acompanha salada de tomate com picles de cebola roxa 50g</p>
             </div>
@@ -1370,7 +1463,6 @@
             <div class="menu-item-body">
               <div class="menu-item-row">
                 <h4>Costillas de Cordero Uruguayo</h4>
-                <span class="menu-item-price">R$ 157</span>
               </div>
               <p>Tradicional e refinada receita da culinária uruguaia com baixo teor de gordura e sabor característico, é servida numa combinação perfeita com a nossa redução de hortelã – 400g – acompanha redução de geleia de hortelã e farofa.</p>
             </div>
@@ -1380,7 +1472,6 @@
             <div class="menu-item-body">
               <div class="menu-item-row">
                 <h4>Lomo Angus Raças Britânicas</h4>
-                <span class="menu-item-price">R$ 105</span>
               </div>
               <p>Filé mignon conhecido por ser uma carne macia e com pouca gordura – corte com 300g – acompanha salada de tomate com picles de cebola roxa 50g</p>
             </div>
@@ -1390,7 +1481,6 @@
             <div class="menu-item-body">
               <div class="menu-item-row">
                 <h4>Sobrecoxa</h4>
-                <span class="menu-item-price">R$ 55</span>
               </div>
               <p>Sobrecoxa marinada por 24 horas - acompanha salada de tomate com picles de cebola roxa</p>
             </div>
@@ -1405,7 +1495,6 @@
             <div class="menu-item-body">
               <div class="menu-item-row">
                 <h4>Bisteca Fiorentina</h4>
-                <span class="menu-item-price">R$ 298</span>
               </div>
               <p>Famoso corte italiano da região da Toscana formado por três sabores e texturas distintas (filé mignon, contra-filé e alcatra). Por seu formato tradicional e considerável espessura, o tempo de cocção é de aproximadamente 45 minutos. Corte com aprox. 1,3 KG</p>
             </div>
@@ -1415,7 +1504,6 @@
             <div class="menu-item-body">
               <div class="menu-item-row">
                 <h4>Gran Chorizo Angus Uruguayo</h4>
-                <span class="menu-item-price">R$ 0</span>
               </div>
               <p>O clássico contra-filé angus uruguayo em sua versão Gran, oferece mais intensidade e qualidade de sabor - Corte com aprox. 600 gramas.</p>
             </div>
@@ -1425,7 +1513,6 @@
             <div class="menu-item-body">
               <div class="menu-item-row">
                 <h4>Gran Asado Los Troncos</h4>
-                <span class="menu-item-price">R$ 235</span>
               </div>
               <p>Parte premium da costela, muito saborosa, macia e suculenta. É também conhecido como filé de costela com osso, ancho com osso ou ojo de bife com osso - Corte com aprox. 600 gramas.</p>
             </div>
@@ -1435,7 +1522,6 @@
             <div class="menu-item-body">
               <div class="menu-item-row">
                 <h4>Entraña Angus Uruguayo</h4>
-                <span class="menu-item-price">R$ 236</span>
               </div>
               <p>Corte mais nobre que temos na casa. Um sabor amanteigado único. Corte premium do frigorífico Las Piedras, rótulo “reserva com 200 dias de confinamento”- Corte com aprox. 600 gramas.</p>
             </div>
@@ -1445,7 +1531,6 @@
             <div class="menu-item-body">
               <div class="menu-item-row">
                 <h4>Entraña Angus Uruguayo à Milanesa</h4>
-                <span class="menu-item-price">R$ 236</span>
               </div>
               <p>Corte mais nobre que temos na casa. Um sabor amanteigado único. Corte premium do frigorífico Las Piedras, rótulo “reserva com 200 dias de confinamento”- Corte com aprox. 600 gramas.</p>
             </div>
@@ -1455,7 +1540,6 @@
             <div class="menu-item-body">
               <div class="menu-item-row">
                 <h4>Entraña Angus Uruguayo à Parmegiana</h4>
-                <span class="menu-item-price">R$ 236</span>
               </div>
               <p>Corte mais nobre que temos na casa. Um sabor amanteigado único. Corte premium do frigorífico Las Piedras, rótulo “reserva com 200 dias de confinamento”- Corte com aprox. 600 gramas.</p>
             </div>
@@ -1465,7 +1549,6 @@
             <div class="menu-item-body">
               <div class="menu-item-row">
                 <h4>Asado o Costillar</h4>
-                <span class="menu-item-price">R$ 175</span>
               </div>
               <p>Costela bovina de Angus assada por 12 horas no horno (forno à brasa) da casa – corte com 500g – acompanha salada de tomate com picles de cebola roxa 50g<br><br>(servido aos finais de semana - sob consulta)</p>
             </div>
@@ -1480,7 +1563,6 @@
             <div class="menu-item-body">
               <div class="menu-item-row">
                 <h4>Parrillada Los Troncos</h4>
-                <span class="menu-item-price">R$ 460</span>
               </div>
               <p>A Parrillada é uma das mais tradicionais experiências gastronômicas do Uruguay, reunindo o melhor dos cortes selecionados da casa. Nossa versão foi pensada para proporcionar uma autêntica vivência uruguaya, com uma combinação especial de sabores: trio de chorizos, sobrecoxa<br>desossada, pamplona suína recheada, entraña, bife de chorizo e assado<br>de tiras.<br>Acompanham: Molho chimichurri, alho confitado, farofa e vinagrete de tomate com picles de cebola roxa. E uma porção de fritas rústica.<br><br>*Serve de 3 a 4 pessoas<br>* Todas as carnes são servidas ao ponto</p>
             </div>
@@ -1495,7 +1577,6 @@
             <div class="menu-item-body">
               <div class="menu-item-row">
                 <h4>Ensalada de Garbanzos</h4>
-                <span class="menu-item-price">R$ 35</span>
               </div>
               <p>Tradicional salada uruguaia de grão de bico cozido com batata rosa, lascas de cebola roxa, ovo, azeite de oliva e flor de sal</p>
             </div>
@@ -1505,7 +1586,6 @@
             <div class="menu-item-body">
               <div class="menu-item-row">
                 <h4>Ensalada de La Casa</h4>
-                <span class="menu-item-price">R$ 39</span>
               </div>
               <p>Mix de mini alface, rúcula, tomate cereja, presunto tipo tipo parma e lascas de queijo parmesão (porção individual)</p>
             </div>
@@ -1515,7 +1595,6 @@
             <div class="menu-item-body">
               <div class="menu-item-row">
                 <h4>Ensalada Rusa</h4>
-                <span class="menu-item-price">R$ 32</span>
               </div>
               <p>Salada de batatas com maionese caseira</p>
             </div>
@@ -1525,7 +1604,6 @@
             <div class="menu-item-body">
               <div class="menu-item-row">
                 <h4>Papas Fritas</h4>
-                <span class="menu-item-price">R$ 32</span>
               </div>
               <p>Batata palito ou batata rústica (canoa).</p>
             </div>
@@ -1535,7 +1613,6 @@
             <div class="menu-item-body">
               <div class="menu-item-row">
                 <h4>Papas Al Plomo</h4>
-                <span class="menu-item-price">R$ 25</span>
               </div>
               <p>Batata envolta no papel alumínio assada na parrilla, servida com creme de gorgonzola gratinado, chimichurri, flor de sal e alecrim</p>
             </div>
@@ -1545,7 +1622,6 @@
             <div class="menu-item-body">
               <div class="menu-item-row">
                 <h4>Morron Relleno</h4>
-                <span class="menu-item-price">R$ 35</span>
               </div>
               <p>Meio pimentão assado na parrilla recheado com queijo muçarela e ovo.</p>
             </div>
@@ -1555,7 +1631,6 @@
             <div class="menu-item-body">
               <div class="menu-item-row">
                 <h4>Legumbres Asados</h4>
-                <span class="menu-item-price">R$ 43</span>
               </div>
               <p>Mix de legumes grelhados na brasa: Batata baby, pimentão vermelho, cebola roxa, abóbora cabotiá e abobrinha</p>
             </div>
@@ -1565,7 +1640,6 @@
             <div class="menu-item-body">
               <div class="menu-item-row">
                 <h4>Arroz a La Manteca y Romero</h4>
-                <span class="menu-item-price">R$ 25</span>
               </div>
               <p>Arroz na manteiga com alecrim.<br></p>
             </div>
@@ -1575,7 +1649,6 @@
             <div class="menu-item-body">
               <div class="menu-item-row">
                 <h4>Cremoso de Boniato y Zanahoria</h4>
-                <span class="menu-item-price">R$ 42</span>
               </div>
               <p>Purê cremoso de batata doce e cenoura defumados lentamente na parrilla servido com azeite de<br>oliva e flor de sal.<br></p>
             </div>
@@ -1585,7 +1658,6 @@
             <div class="menu-item-body">
               <div class="menu-item-row">
                 <h4>Espaguetis a Salsa Roja</h4>
-                <span class="menu-item-price">R$ 35</span>
               </div>
               <p>Espaguete ao molho rústico de tomates defumados na brasa</p>
             </div>
@@ -1595,7 +1667,6 @@
             <div class="menu-item-body">
               <div class="menu-item-row">
                 <h4>Legumbres Premium</h4>
-                <span class="menu-item-price">R$ 76</span>
               </div>
               <p>Aspargos e Alcachofras grelhados na brasa, tomate confitados, finalizados com flor de sal - Acompanha pão na brasa</p>
             </div>
@@ -1610,7 +1681,6 @@
             <div class="menu-item-body">
               <div class="menu-item-row">
                 <h4>Carne</h4>
-                <span class="menu-item-price">R$ 39</span>
               </div>
               <p>150g de tiras de filé mignon com arroz e batatas sorriso fritas.</p>
             </div>
@@ -1620,7 +1690,6 @@
             <div class="menu-item-body">
               <div class="menu-item-row">
                 <h4>Frango</h4>
-                <span class="menu-item-price">R$ 39</span>
               </div>
               <p>Meio galeto assado na brasa com arroz e batatas sorriso fritas.<br></p>
             </div>
@@ -1635,7 +1704,6 @@
             <div class="menu-item-body">
               <div class="menu-item-row">
                 <h4>Risoto de Cogumelos com aspargos</h4>
-                <span class="menu-item-price">R$ 55</span>
               </div>
               <p>Risoto cremoso com cogumelos, parmesão e aspargos assados na brasa</p>
             </div>
@@ -1650,7 +1718,6 @@
             <div class="menu-item-body">
               <div class="menu-item-row">
                 <h4>Postre Chajá</h4>
-                <span class="menu-item-price">R$ 35</span>
               </div>
               <p>O chajá é uma das sobremesas mais consumidas no Uruguay - feita de pão de ló, pêssegos,<br>chantilly sem açúcar, doce de leite feito na casa e suspiros</p>
             </div>
@@ -1660,7 +1727,6 @@
             <div class="menu-item-body">
               <div class="menu-item-row">
                 <h4>Ananá</h4>
-                <span class="menu-item-price">R$ 35</span>
               </div>
               <p>Abacaxi assado na brasa com caramelo de açúcar mascavo, rum, canela e limão siciliano - acompanha sorvete</p>
             </div>
@@ -1670,7 +1736,6 @@
             <div class="menu-item-body">
               <div class="menu-item-row">
                 <h4>Creme de Papaia com Licor de Cassis</h4>
-                <span class="menu-item-price">R$ 25</span>
               </div>
               <p>Mamão papaia batido com sorvete de creme e servido com licor de cassis.</p>
             </div>
@@ -1680,7 +1745,6 @@
             <div class="menu-item-body">
               <div class="menu-item-row">
                 <h4>Crema Catalana</h4>
-                <span class="menu-item-price">R$ 25</span>
               </div>
               <p>Receita espanhola de um creme aromático, suave e delicado, servido cobertura de açúcar demerara caramelizado</p>
             </div>
@@ -1690,7 +1754,6 @@
             <div class="menu-item-body">
               <div class="menu-item-row">
                 <h4>Churros Dulce de Leche </h4>
-                <span class="menu-item-price">R$ 25</span>
               </div>
               <p>Churros feitos na casa com açúcar, canela e doce de leite feito na casa</p>
             </div>
@@ -1700,7 +1763,6 @@
             <div class="menu-item-body">
               <div class="menu-item-row">
                 <h4>Panqueques Con Dulce de Leche y Helado</h4>
-                <span class="menu-item-price">R$ 35</span>
               </div>
               <p>Panqueca brulée recheada com doce de leite feito na casa. Acompanha uma bola de sorvete</p>
             </div>
@@ -1713,7 +1775,7 @@
       </div>
       <section class="menu-section" id="m1s0">
         <h3 class="menu-sec-title">Sobre o Almoço Executivo</h3>
-        <p class="menu-sec-desc">Sua experiência inclui: Entrada, prato principal, sobremesa e café passado por R$ 86,00</p>
+        <p class="menu-sec-desc">Sua experiência inclui: Entrada, prato principal, sobremesa e café passado</p>
       </section>
       <section class="menu-section" id="m1s1">
         <h3 class="menu-sec-title">Entradas (escolha 1 opção)</h3>
@@ -1723,7 +1785,6 @@
             <div class="menu-item-body">
               <div class="menu-item-row">
                 <h4>Bruschetta Carbonara</h4>
-                <span class="menu-item-price">R$ 0</span>
               </div>
               <p>Pão de fermentação natural com gema de ovo curado sobre um creme de queijo parmesão e crispy de bacon<br></p>
             </div>
@@ -1733,7 +1794,6 @@
             <div class="menu-item-body">
               <div class="menu-item-row">
                 <h4>Carpaccio Angus</h4>
-                <span class="menu-item-price">R$ 0</span>
               </div>
               <p>Lâminas finas de carne com folhas baby, tomate cereja e lascas de parmesão </p>
             </div>
@@ -1743,7 +1803,6 @@
             <div class="menu-item-body">
               <div class="menu-item-row">
                 <h4>Croqueta de Costela</h4>
-                <span class="menu-item-price">R$ 0</span>
               </div>
               <p>Bolinhos de costela desfiado, cremoso por dentro e crocante por fora. Finalizado com aioli de alho confitado.</p>
             </div>
@@ -1753,7 +1812,6 @@
             <div class="menu-item-body">
               <div class="menu-item-row">
                 <h4>Salada Los Troncos</h4>
-                <span class="menu-item-price">R$ 0</span>
               </div>
               <p> Mix de folhas baby com cubos de beterraba assada, granola salgada e nutritiva com semente de girassol etc. Acompanha um creme azedo.<br></p>
             </div>
@@ -1768,7 +1826,6 @@
             <div class="menu-item-body">
               <div class="menu-item-row">
                 <h4>Entraña</h4>
-                <span class="menu-item-price">R$ 78</span>
               </div>
               <p>Entranha assada na brasa ( 200 gramas) - Carro chefe do executivo!<br>Acompanha purê cremoso de batata doce com cenoura e legumes grelhados.<br> E um arroz de cortesia, se preferir.</p>
             </div>
@@ -1778,7 +1835,6 @@
             <div class="menu-item-body">
               <div class="menu-item-row">
                 <h4>Entraña à Parmegiana</h4>
-                <span class="menu-item-price">R$ 83</span>
               </div>
               <p>Entranha a parmegiana ( 200 gramas) - Com molho de tomates assados na parrilha!<br>Acompanha arroz e fritas rustica.</p>
             </div>
@@ -1788,7 +1844,6 @@
             <div class="menu-item-body">
               <div class="menu-item-row">
                 <h4>Fraldinha com Molho Gorgonzola</h4>
-                <span class="menu-item-price">R$ 75</span>
               </div>
               <p>Fraldinha com molho gorgonzola ( 200 gramas) <br>Acompanha purê cremoso de batata doce com cenoura e legumes grelhados. E um arroz de cortesia, se preferir.</p>
             </div>
@@ -1797,24 +1852,22 @@
       </section>
       <section class="menu-section" id="m1s3">
         <h3 class="menu-sec-title">Especiais</h3>
-        <p class="menu-sec-desc">Sua experiência inclui: Entrada, prato principal, sobremesa e café passado.<br><br>Confira o preço diferenciado dos pratos!<br><br><br></p>
+        <p class="menu-sec-desc">Sua experiência inclui: Entrada, prato principal, sobremesa e café passado.</p>
         <div class="menu-grid">
           <article class="menu-item">
-            <div class="menu-item-img"><img loading="lazy" src="assets/menu/file-mignon-assado-na-brasa-r-99-00.jpg" alt="Filé Mignon assado na brasa  R$ 99,00"></div>
+            <div class="menu-item-img"><img loading="lazy" src="assets/menu/file-mignon-assado-na-brasa-r-99-00.jpg" alt="Filé Mignon assado na brasa"></div>
             <div class="menu-item-body">
               <div class="menu-item-row">
-                <h4>Filé Mignon assado na brasa  R$ 99,00</h4>
-                <span class="menu-item-price">R$ 99</span>
+                <h4>Filé Mignon assado na brasa</h4>
               </div>
               <p>Medalhão de mingnon assado na brasa (200 gramas) <br>Acompanhamentos ( Escolha 1 opção)<br><br>* Purê cremoso de batata doce com cenoura e legumes grelhados<br><br>*Porção generosa e nutritiva de legumes na brasa ( 150 gramas)</p>
             </div>
           </article>
           <article class="menu-item">
-            <div class="menu-item-img"><img loading="lazy" src="assets/menu/bife-de-chorizo-uruguayo-r-156.jpg" alt="Bife de Chorizo Uruguayo R$ 156"></div>
+            <div class="menu-item-img"><img loading="lazy" src="assets/menu/bife-de-chorizo-uruguayo-r-156.jpg" alt="Bife de Chorizo Uruguayo"></div>
             <div class="menu-item-body">
               <div class="menu-item-row">
-                <h4>Bife de Chorizo Uruguayo R$ 156</h4>
-                <span class="menu-item-price">R$ 156</span>
+                <h4>Bife de Chorizo Uruguayo</h4>
               </div>
               <p>Suculento Bife de Chorizo Angus Uruguayo (300 gramas) - A única carne uruguaya do almoço executivo.<br><br>Acompanhamentos ( Escolha 1 opção)<br>*Purê cremoso de batata doce com cenoura e legumes grelhados<br><br>*Porção generosa e nutritiva de legumes na brasa ( 150 gramas)</p>
             </div>
@@ -1829,7 +1882,6 @@
             <div class="menu-item-body">
               <div class="menu-item-row">
                 <h4>Sobremesa do Dia</h4>
-                <span class="menu-item-price">R$ 0</span>
               </div>
               <p>Consulte o Garçom</p>
             </div>
@@ -1839,13 +1891,34 @@
             <div class="menu-item-body">
               <div class="menu-item-row">
                 <h4>Café</h4>
-                <span class="menu-item-price">R$ 0</span>
               </div>
               <p>Café Passado 3 Corações</p>
             </div>
           </article>
         </div>
       </section>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════ MODAL DE RESERVAS ═══════════ -->
+<div class="reserva-modal" id="reservaModal" role="dialog" aria-modal="true" aria-label="Escolha a unidade para reservar" hidden>
+  <div class="reserva-backdrop" data-close-reserva></div>
+  <div class="reserva-card">
+    <button class="reserva-close" id="reservaClose" aria-label="Fechar">&times;</button>
+    <div class="reserva-eyebrow">Reservas</div>
+    <h3 class="reserva-title">Escolha a unidade</h3>
+    <div class="reserva-options">
+      <a href="https://www.pensanoevento.com.br/sitev2/reservas/1287/los-troncos-parrilla-uruguaya" target="_blank" rel="noopener" class="reserva-option">
+        <span class="ro-name">Unidade Centro</span>
+        <span class="ro-addr">Praça Getúlio Vargas, 158 · Centro · Florianópolis</span>
+        <span class="ro-cta">Reservar &nbsp;→</span>
+      </a>
+      <a href="https://www.pensanoevento.com.br/sitev2/reservas/2776/los-troncos-parrilla-uruguaya-lagoa-da-conceicao" target="_blank" rel="noopener" class="reserva-option">
+        <span class="ro-name">Unidade Lagoa da Conceição</span>
+        <span class="ro-addr">Rua Rita Lourenço da Silveira, 500 · Lagoa da Conceição</span>
+        <span class="ro-cta">Reservar &nbsp;→</span>
+      </a>
     </div>
   </div>
 </div>
@@ -1886,6 +1959,17 @@
     el.addEventListener('click', (ev) => { ev.preventDefault(); links.classList.remove('open'); openMenu(); }));
   document.getElementById('menuClose').addEventListener('click', closeMenu);
   document.addEventListener('keydown', e => { if (e.key === 'Escape' && !overlay.hidden) closeMenu(); });
+
+  // modal de reservas
+  const reservaModal = document.getElementById('reservaModal');
+  const openReserva = () => { reservaModal.hidden = false; document.body.classList.add('reserva-open'); };
+  const closeReserva = () => { reservaModal.hidden = true; document.body.classList.remove('reserva-open'); };
+  document.querySelectorAll('[data-open-reserva]').forEach(el =>
+    el.addEventListener('click', (ev) => { ev.preventDefault(); links.classList.remove('open'); openReserva(); }));
+  document.querySelectorAll('[data-close-reserva]').forEach(el => el.addEventListener('click', closeReserva));
+  document.getElementById('reservaClose').addEventListener('click', closeReserva);
+  document.querySelectorAll('.reserva-option').forEach(opt => opt.addEventListener('click', closeReserva));
+  document.addEventListener('keydown', e => { if (e.key === 'Escape' && !reservaModal.hidden) closeReserva(); });
 
   // tab navigation inside overlay
   document.querySelectorAll('.menu-tab').forEach(tab => {
